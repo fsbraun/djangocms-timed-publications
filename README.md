@@ -15,7 +15,7 @@ django CMS Timed Publishing extends django CMS Versioning to allow for planned o
 1. Install the package using pip:
 
     ```bash
-    pip install djangocms-timed-publishing
+    pip install git+https://github.com/fsbraun/djangocms-timed-publishing
     ```
 
 2. Add `'djangocms_timed_publishing'` to your `INSTALLED_APPS` in `settings.py`:

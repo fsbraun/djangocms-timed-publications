@@ -1,0 +1,133 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "djangocms-timed-publishing"
+version = "0.1.0"
+description = "djangocms-versioning extension to time your publications"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "fsbraun"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django CMS",
+    "Framework :: Django CMS :: 4.1",
+    "Framework :: Django CMS :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+]
+keywords = ["django", "cms", "djangocms", "versioning", "timed", "publications"]
+requires-python = ">=3.9"
+dependencies = [
+    "django-cms>=4.1",
+    "djangocms-versioning>=2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "isort",
+    "pytest",
+    "pytest-django",
+    "coverage",
+    "tox",
+]
+test = [
+    "pytest",
+    "pytest-django",
+    "coverage",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/fsbraun/djangocms-timed-publishing"
+"Bug Reports" = "https://github.com/fsbraun/djangocms-timed-publishing/issues"
+"Source" = "https://github.com/fsbraun/djangocms-timed-publishing"
+
+[tool.setuptools.packages.find]
+include = ["djangocms_timed_publishing*"]
+
+[tool.setuptools.package-data]
+"djangocms_timed_publishing" = ["templates/**/*", "static/**/*", "locale/**/*"]
+
+[tool.black]
+line-length = 119
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_django = "django"
+known_cms = "cms,djangocms_versioning"
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "DJANGO", "CMS", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg-info",
+    ".venv",
+    ".tox",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["test_*.py", "*_test.py", "tests.py"]
+addopts = "--verbose --tb=short"
+
+[tool.coverage.run]
+source = ["djangocms_timed_publishing"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/venv/*",
+    "*/env/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]

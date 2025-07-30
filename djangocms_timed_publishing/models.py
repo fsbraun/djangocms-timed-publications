@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-
 class TimedPublishingInterval(models.Model):
     version = models.OneToOneField(
         'djangocms_versioning.Version',

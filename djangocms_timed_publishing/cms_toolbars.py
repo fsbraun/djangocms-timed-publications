@@ -5,7 +5,7 @@ from django.utils.formats import localize
 from django.utils.translation import gettext as _
 
 from cms.models import PageContent
-from cms.toolbar.items import Break, ButtonList
+from cms.toolbar.items import Break
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
 from djangocms_versioning import constants, versionables

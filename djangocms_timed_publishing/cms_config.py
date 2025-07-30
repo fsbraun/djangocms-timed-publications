@@ -7,7 +7,6 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from cms.app_base import CMSAppConfig
-
 from djangocms_versioning import constants
 from djangocms_versioning.admin import VersionAdmin
 from djangocms_versioning.cms_toolbars import VersioningToolbar

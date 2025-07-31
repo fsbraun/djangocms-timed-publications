@@ -10,7 +10,6 @@ from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
 from djangocms_versioning import constants, versionables
 from djangocms_versioning.cms_toolbars import VERSIONING_MENU_IDENTIFIER
-from djangocms_versioning.helpers import version_list_url
 from djangocms_versioning.models import Version
 
 
@@ -41,7 +40,6 @@ class TimedPublicationsToolbar(CMSToolbar):
         self.update_versioning_menu()
 
     def update_versioning_menu(self):
-        print("==> Updating versioning menu for timed publications <==")
         """Update the versioning menu with timed publication options.
         This method checks if the versioning menu exists and adds
         the timed publications options to it."""
@@ -96,7 +94,7 @@ class TimedPublicationsToolbar(CMSToolbar):
                         f"admin:{proxy_model._meta.app_label}_{proxy_model.__name__.lower()}_publish",
                         args=(version.pk,)
                     ),
-                    on_close=version_list_url(version.content),
+                    on_close="REFRESH_PAGE",
                     position=prev_entry,
                 )
                 prev_entry = versioning_menu.add_item(Break(), position=prev_entry)

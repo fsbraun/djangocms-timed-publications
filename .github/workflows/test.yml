@@ -1,0 +1,120 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+        requirements-file: 
+          - 'dj42-cms41'
+          - 'dj42-cms50'
+          - 'dj52-cms41'
+          - 'dj52-cms50'
+        exclude:
+          # Django 5.2 requires Python >= 3.10
+          - python-version: '3.9'
+            requirements-file: 'dj52-cms41'
+          - python-version: '3.9'
+            requirements-file: 'dj52-cms50'
+
+    name: Python ${{ matrix.python-version }} / ${{ matrix.requirements-file }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ matrix.requirements-file }}-${{ hashFiles('tests/requirements/*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ matrix.requirements-file }}-
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+          ${{ runner.os }}-pip-
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gettext
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-django pytest-cov
+        pip install -r tests/requirements/${{ matrix.requirements-file }}.txt
+        pip install -e .
+
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 djangocms_timed_publishing --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 djangocms_timed_publishing --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Run tests with pytest
+      run: |
+        pytest --cov=djangocms_timed_publishing --cov-report=xml --cov-report=term-missing -v
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  # Separate job for code quality checks
+  quality:
+    runs-on: ubuntu-latest
+    name: Code Quality
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black isort flake8 mypy
+        pip install -r tests/requirements/dj42-cms50.txt
+        pip install -e .
+
+    - name: Check code formatting with black
+      run: |
+        black --check --diff djangocms_timed_publishing tests
+
+    - name: Check import sorting with isort
+      run: |
+        isort --check-only --diff djangocms_timed_publishing tests
+
+    - name: Lint with flake8
+      run: |
+        flake8 djangocms_timed_publishing tests
+
+    - name: Type check with mypy (if configured)
+      run: |
+        # Only run mypy if mypy.ini or pyproject.toml contains mypy config
+        if [ -f mypy.ini ] || grep -q "\[tool.mypy\]" pyproject.toml; then
+          mypy djangocms_timed_publishing
+        else
+          echo "Mypy configuration not found, skipping type checking"
+        fi
+      continue-on-error: true

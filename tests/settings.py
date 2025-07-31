@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'menus',
     'sekizai',
     'treebeard',
-    'djangocms_admin_style',
 
     # Versioning
     'djangocms_versioning',
@@ -129,8 +128,6 @@ CMS_TEMPLATES = [
 CMS_PERMISSION = True
 CMS_PLACEHOLDER_CONF = {}
 
-# Versioning settings
-DJANGOCMS_VERSIONING_ENABLE_MENU_REGISTRATION = True
 
 # Logging
 LOGGING = {

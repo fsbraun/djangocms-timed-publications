@@ -5,7 +5,7 @@ from django.db import models
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from cms.app_base import CMSAppConfig
 from djangocms_versioning import constants
@@ -17,6 +17,9 @@ from djangocms_versioning.models import Version
 from .cms_toolbars import _get_published_page_version
 from .forms import TimedPublishingForm
 from .models import TimedPublishingInterval
+
+PENDING = _("Pending")
+EXPIRED = _("Expired")
 
 
 def patch_publish_view(original_view):
@@ -65,9 +68,9 @@ def patch_short_name(self):
     state = dict(constants.VERSION_STATES)[self.state]
     if self.state == constants.PUBLISHED and hasattr(self, 'visibility'):
         if self.visibility.start and self.visibility.start > timezone.now():
-            state = _("Pending")
+            state = PENDING
         elif self.visibility.end and self.visibility.end < timezone.now():
-            state = _("Expired")
+            state = EXPIRED
     return _("Version #{number} ({state})").format(
         number=self.number, state=state
     )
@@ -81,7 +84,8 @@ def patch_get_queryset(original_get_queryset: callable) -> callable:
     """
     def patched_get_queryset(self):
         queryset = original_get_queryset(self)
-        if not self.versioning_enabled:
+        if not self.versioning_enabled:  # pragma: no cover
+            # If versioning is not enabled, return the original queryset
             return queryset
         now = timezone.now()
         return queryset.filter(
@@ -100,9 +104,9 @@ def get_state(self: admin.ModelAdmin, obj: Version) -> str:
     """
     if obj.state == constants.PUBLISHED and hasattr(obj, 'visibility'):
         if obj.visibility.start and obj.visibility.start > timezone.now():
-            return _("Pending")
+            return PENDING
         elif obj.visibility.end and obj.visibility.end < timezone.now():
-            return _("Expired")
+            return EXPIRED
     return dict(constants.VERSION_STATES)[obj.state]
 
 

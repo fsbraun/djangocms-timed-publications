@@ -60,16 +60,16 @@ class TimedPublicationsToolbar(CMSToolbar):
             versioning_menu.add_item(Break(), position=0)
         if visibility and visibility.end:
             versioning_menu.add_link_item(
-                _("Visible until %(datetime)s") %  {"datetime": localize(visibility.end)},
+                _("Visible until %(datetime)s (%(tz)s)") %  {"datetime": localize(visibility.end), "tz": visibility.end.tzinfo},
                 url="",
                 disabled=True,
                 position=0,
             )
         if visibility and visibility.start:
             if visibility.start < timezone.now():
-                msg = _("Visible since %(datetime)s") % {"datetime": localize(visibility.start)}
+                msg = _("Visible since %(datetime)s (%(tz)s)") % {"datetime": localize(visibility.start), "tz": visibility.start.tzinfo}
             else:
-                msg = _("Visible after %(datetime)s") % {"datetime": localize(visibility.start)}
+                msg = _("Visible after %(datetime)s (%(tz)s)") % {"datetime": localize(visibility.start), "tz": visibility.start.tzinfo}
             versioning_menu.add_link_item(
                 msg,
                 url="",

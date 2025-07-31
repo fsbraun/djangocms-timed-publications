@@ -1,0 +1,127 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-31 09:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cms_config.py:38
+msgid "This view only supports GET or POST method."
+msgstr "Diese Ansicht unterstützt nur die GET oder POST-Methode."
+
+#: cms_config.py:68
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: cms_config.py:70
+msgid "Expired"
+msgstr "Abgelaufen"
+
+#: cms_config.py:71
+#, python-brace-format
+msgid "Version #{number} ({state})"
+msgstr "Version #{number} ({state})"
+
+#: cms_toolbars.py:63
+#, python-format
+msgid "Visible until %(datetime)s (%(tz)s)"
+msgstr "Sichtbar bis %(datetime)s (%(tz)s)"
+
+#: cms_toolbars.py:70
+#, python-format
+msgid "Visible since %(datetime)s (%(tz)s)"
+msgstr "Sichtbar seit %(datetime)s (%(tz)s)"
+
+#: cms_toolbars.py:72
+#, python-format
+msgid "Visible after %(datetime)s (%(tz)s)"
+msgstr "Sichtbar ab %(datetime)s (%(tz)s)"
+
+#: cms_toolbars.py:92
+#: templates/djangocms_versioning/admin/timed_publishing.html:14
+msgid "Publish with time limits"
+msgstr "Zeitbegrenzt veröffentlichen"
+
+#: forms.py:11
+msgid "Visible after"
+msgstr "Sichtbar ab"
+
+#: forms.py:12 models.py:17
+msgid "Leave empty for immediate public visibility"
+msgstr "Leer lassen für sofortige Sichtbarkeit nach Veröffentlichung"
+
+#: forms.py:18
+msgid "Visible until"
+msgstr "Sichtbar bis"
+
+#: forms.py:19 models.py:25
+msgid "Leave empty for unrestricted public visibility"
+msgstr "Leer lassen für unbegrenzte Sichtbarkeit"
+
+#: forms.py:28 forms.py:36
+msgid "The date and time must be in the future."
+msgstr "Das Datum und die Uhrzeit müssen in der Zukunft liegen."
+
+#: forms.py:44
+msgid ""
+"The time until the content is visible must be after the time the content "
+"becomes visible."
+msgstr "Die Zeit, bis der Inhalt sichtbar ist, muss nach dem Zeitpunkt liegen, an dem der Inhalt sichtbar wird."
+
+#: models.py:16
+msgid "visible after"
+msgstr "sichtbar ab"
+
+#: models.py:24
+msgid "visible until"
+msgstr "sichtbar bis"
+
+#: templates/djangocms_versioning/admin/timed_publishing.html:17
+msgid ""
+"\n"
+"        <p>You can publish with optional dates and times in the future when "
+"the content will become visible\n"
+"            and/or ceases to be visible to visitors of the site.</p>\n"
+"        <p>Once published the contents or times cannot be changed anymore.</"
+"p>\n"
+"    "
+msgstr ""
+"\n"
+"        <p>Sie können mit optionalen Daten und Uhrzeiten in der Zukunft veröffentlichen, zu denen der Inhalt sichtbar wird\n"
+"            und/oder nicht mehr für Besucher der Seite sichtbar ist.</p>\n"
+"        <p>Nach der Veröffentlichung können die Inhalte oder Zeiten nicht mehr geändert werden.</p>\n"
+"    "
+
+#: templates/djangocms_versioning/admin/timed_publishing.html:24
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Bitte beheben Sie den untenstehenden Fehler."
+msgstr[1] "Bitte beheben Sie den untenstehende Fehler."
+
+#: templates/djangocms_versioning/admin/timed_publishing.html:45
+#, python-format
+msgid ""
+"\n"
+"                All times are %(time_zone)s server times.\n"
+"                Current server time is %(current_time)s"
+msgstr ""
+"\n"
+"                Alle Zeiten sind %(time_zone)s Serverzeiten.\n"
+"                Die aktuelle Serverzeit ist %(current_time)s"
+
+#: templates/djangocms_versioning/admin/timed_publishing.html:54
+msgid "Publish"
+msgstr "Veröffentlichen"

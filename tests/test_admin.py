@@ -112,9 +112,16 @@ class TestAdmin:
         assert not hasattr(version, "visibility")
 
     def test_changelist_view_state(self, client, admin_user, page_content, past_datetime, future_datetime):
+        url = admin_reverse("djangocms_versioning_pagecontentversion_changelist") + f"?page={page_content.page.pk}"
+
+        client.login(username=admin_user.username, password='admin123')
+        response = client.get(url)
+        content = response.content.decode()
+
+        assert "Draft" in content
+
         version = page_content.versions.first()
         version.publish(admin_user)
-        url = admin_reverse("djangocms_versioning_pagecontentversion_changelist") + f"?page={page_content.page.pk}"
         interval = TimedPublishingInterval.objects.create(
             version=version,
             start=future_datetime,

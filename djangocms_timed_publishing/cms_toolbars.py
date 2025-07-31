@@ -13,11 +13,11 @@ from djangocms_versioning.cms_toolbars import VERSIONING_MENU_IDENTIFIER
 from djangocms_versioning.models import Version
 
 
-def _get_published_page_version(self):
+def _get_published_page_version(self): 
     language = self.current_lang
 
     # Exit the current toolbar object is not a Page / PageContent instance
-    if not isinstance(self.toolbar.obj, PageContent) or not self.page:
+    if not isinstance(self.toolbar.obj, PageContent) or not self.page:  # pragma: no cover
         return
 
     return PageContent.objects.filter(

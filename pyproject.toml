@@ -110,6 +110,8 @@ exclude = [
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = "."
+testpaths = "tests"
 python_files = [ "test_*.py", "*_test.py", "tests.py" ]
 addopts = "--verbose --tb=short"
 

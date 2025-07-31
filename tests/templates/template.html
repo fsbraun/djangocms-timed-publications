@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Template</title>
+    {% load cms_tags sekizai_tags %}
+</head>
+<body>
+    {% cms_toolbar %}
+    {% placeholder "content" %}
+    {% render_block "css" %}
+    {% render_block "js" %}
+</body>
+</html>

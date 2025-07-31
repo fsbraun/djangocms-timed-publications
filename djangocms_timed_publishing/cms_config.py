@@ -25,16 +25,16 @@ def patch_publish_view(original_view):
     correctly processes time-restricted visibility.
     """
     def patched_view(self, request, object_id, *args, **kwargs):
+        if request.method not in ("GET", "POST"):
+            return HttpResponseNotAllowed(
+                ["GET", "POST"], _("This view only supports GET or POST method.")
+            )
         form = TimedPublishingForm(request.POST) if request.method == "POST" else TimedPublishingForm()
         if request.method == "GET" or not form.is_valid():
             return render(
                 request,
                 template_name="djangocms_versioning/admin/timed_publishing.html",
                 context={"form": form, "errors": request.method != "GET" and not form.is_valid()},
-            )
-        if request.method != "POST":
-            return HttpResponseNotAllowed(
-                ["GET", "POST"], _("This view only supports GET or POST method.")
             )
 
         visibility_start = form.cleaned_data["visibility_start"]

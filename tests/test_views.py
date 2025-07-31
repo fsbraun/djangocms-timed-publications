@@ -33,11 +33,14 @@ class TestToolbar:
             "visibility_start_1": "this is not a date"
         })
         content = response.content.decode()
-        assert '<ul class="errorlist" id="id_visibility_start_error"><li>Enter a valid time.</li></ul>' in content
+        assert (
+            '<ul class="errorlist" id="id_visibility_start_error"><li>Enter a valid time.</li></ul>' in content or 
+            '<ul class="errorlist"><li>Enter a valid time.</li></ul>' in content  # Django 4.2
+        )
 
     def test_publish_does_publish_without_form_data(self, client, admin_user, page_content):
         from djangocms_versioning.constants import PUBLISHED
-        
+
         version = page_content.versions.first()
         url = admin_reverse("djangocms_versioning_pagecontentversion_publish", args=(version.pk,))
         client.login(username=admin_user.username, password='admin123')

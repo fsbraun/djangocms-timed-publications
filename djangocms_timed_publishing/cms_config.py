@@ -15,7 +15,6 @@ from djangocms_versioning.models import Version
 
 from .cms_toolbars import _get_published_page_version
 from .forms import TimedPublishingForm
-from .managers import get_queryset
 from .models import TimedPublishingInterval
 
 
@@ -89,7 +88,6 @@ def patch_get_queryset(original_get_queryset):
             Q(versions__visibility__end=None) | Q(versions__visibility__end__gt=now),
         )
 
-        return get_queryset(queryset)
     return patched_get_queryset
 
 

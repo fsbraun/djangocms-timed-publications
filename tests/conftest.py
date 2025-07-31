@@ -66,3 +66,25 @@ def far_future_datetime(now):
 def far_past_datetime(now):
     """Datetime 1 day in the past"""
     return now - timedelta(days=1)
+
+
+
+@pytest.fixture
+def page(admin_user):
+    """Create a test page"""
+    from cms.api import create_page
+
+    return create_page(
+        title='Test Page',
+        template='template.html',
+        language='en',
+        slug='test-page',
+        created_by=admin_user,
+        in_navigation=True
+    )
+
+
+@pytest.fixture
+def page_content(page):
+    """Create a test page content"""
+    return page.pagecontent_set(manager="admin_manager").first()

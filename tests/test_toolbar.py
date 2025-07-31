@@ -7,35 +7,6 @@ from cms.toolbar.utils import get_object_edit_url, get_object_preview_url
 from djangocms_timed_publishing.models import TimedPublishingInterval
 
 
-@pytest.fixture
-def page(admin_user):
-    """Create a test page"""
-    from cms.api import create_page
-
-    return create_page(
-        title='Test Page',
-        template='template.html',
-        language='en',
-        slug='test-page',
-        created_by=admin_user,
-        in_navigation=True
-    )
-
-
-@pytest.fixture
-def page_content(page):
-    """Create a test page content"""
-    return page.pagecontent_set(manager="admin_manager").first()
-
-
-@pytest.fixture
-def object_edit_endpoint_content(client, page_content, admin_user):
-    """Get the edit URL for a page content"""
-    client.login(username=admin_user.username, password='admin123')
-    response = client.get(get_object_edit_url(page_content))
-    return response.content.decode()
-
-
 @pytest.mark.django_db
 class TestToolbar:
     def test_toolbar_offers_timed_publishing(self, client, admin_user, page_content):

@@ -83,7 +83,7 @@ class TimedPublicationsToolbar(CMSToolbar):
                 app_label=version._meta.app_label,
                 codename=get_permission_codename("change", version._meta),
             )
-        ) and version.source:
+        ):
             # Timed publishibng
             if version.check_publish.as_bool(self.request.user):
                 proxy_model = versionables.for_content(version.content).version_model_proxy

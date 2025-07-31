@@ -62,9 +62,8 @@ jobs:
         pytest --cov=djangocms_timed_publishing --cov-report=xml --cov-report=term-missing -v
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.xml
-        flags: unittests
         name: codecov-umbrella
-        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: fsbraun/djangocms-timed-publishing

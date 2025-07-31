@@ -45,13 +45,13 @@ class TimedPublicationsToolbar(CMSToolbar):
         the timed publications options to it."""
 
         versioning_menu = self.toolbar.get_menu(VERSIONING_MENU_IDENTIFIER)
-        if not versioning_menu:
+        if not versioning_menu:  # pragma: no cover
             return None
 
         version = Version.objects.get_for_content(self.toolbar.obj)
         # Visibility is only valid for published versions
         visibility = version.state == constants.PUBLISHED and getattr(version, 'visibility', None)
-        if version is None:
+        if version is None:  # pragma: no cover
             return
 
         # Inform about time restrictions

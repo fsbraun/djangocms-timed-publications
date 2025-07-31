@@ -87,3 +87,22 @@ class TestToolbar:
         version = page_content.versions.first()
         assert version.state == PUBLISHED
         assert hasattr(version, "visibility")
+    
+    def test_publish_gracefully_handles_id_mismatch(self, client, admin_user, page_content, future_datetime, far_future_datetime):
+        version = page_content.versions.first()
+        url = admin_reverse("djangocms_versioning_pagecontentversion_publish", args=(-version.pk,))
+        client.login(username=admin_user.username, password='admin123')
+        data = {
+            "visibility_start_0": future_datetime.date().isoformat(),
+            "visibility_start_1": future_datetime.strftime("%H:%M"),
+            "visibility_end_0": far_future_datetime.date().isoformat(),
+            "visibility_end_1": far_future_datetime.strftime("%H:%M"),
+        }
+        response = client.post(url, data=data)
+
+        assert response.status_code == 302 or response.status_code == 301
+        assert response.url == "/admin/"
+        
+        version = page_content.versions.first()
+        assert version.state == DRAFT  # Should not change state due to ID mismatch
+        assert not hasattr(version, "visibility")

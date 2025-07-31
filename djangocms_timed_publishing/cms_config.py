@@ -1,6 +1,7 @@
 from urllib.parse import unquote
 
-from django.db.models import Q
+from django.contrib import admin
+from django.db import models
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.utils import timezone
@@ -72,7 +73,7 @@ def patch_short_name(self):
     )
 
 
-def patch_get_queryset(original_get_queryset):
+def patch_get_queryset(original_get_queryset: callable) -> callable:
     """
     Patch the get_queryset method to filter by visibility.
     This function ensures that only versions with valid visibility
@@ -84,15 +85,31 @@ def patch_get_queryset(original_get_queryset):
             return queryset
         now = timezone.now()
         return queryset.filter(
-            Q(versions__visibility__start=None) | Q(versions__visibility__start__lt=now),
-            Q(versions__visibility__end=None) | Q(versions__visibility__end__gt=now),
+            models.Q(versions__visibility__start=None) | models.Q(versions__visibility__start__lt=now),
+            models.Q(versions__visibility__end=None) | models.Q(versions__visibility__end__gt=now),
         )
 
     return patched_get_queryset
 
+@admin.display(description=_("State"), ordering="state")
+def get_state(self: admin.ModelAdmin, obj: Version) -> str:
+    """
+    Get the state of the version, considering visibility.
+    This function is used to determine the state of a version
+    in the admin interface, taking into account time restrictions.
+    """
+    if obj.state == constants.PUBLISHED and hasattr(obj, 'visibility'):
+        if obj.visibility.start and obj.visibility.start > timezone.now():
+            return _("Pending")
+        elif obj.visibility.end and obj.visibility.end < timezone.now():
+            return _("Expired")
+    return dict(constants.VERSION_STATES)[obj.state]
+
 
 class TimedPublishingConfig(CMSAppConfig):
     VersionAdmin.publish_view = patch_publish_view(VersionAdmin.publish_view)
+    VersionAdmin.get_state = get_state
+    VersionAdmin.list_display = ["get_state" if item == "state" else item for item in VersionAdmin.list_display]
     Version.short_name = patch_short_name
     PublishedContentManagerMixin.get_queryset = patch_get_queryset(
         PublishedContentManagerMixin.get_queryset

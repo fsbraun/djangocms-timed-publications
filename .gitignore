@@ -100,7 +100,7 @@ cython_debug/
 
 # PyCharm and VS Code
 .idea/
-.vscode
+.vscode/
 
 
 # Visual Studio Code

@@ -44,8 +44,8 @@ repos:
         - sphinx==6.1.3
         - tomli==2.0.1
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.4.4
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.7
     hooks:
     - id: ruff
       args: ["djangocms_timed_publishing", "--fix"]

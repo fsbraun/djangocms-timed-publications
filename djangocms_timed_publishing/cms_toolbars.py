@@ -92,7 +92,7 @@ class TimedPublicationsToolbar(CMSToolbar):
                 app_label=version._meta.app_label,
                 codename=get_permission_codename("change", version._meta),
             )
-        ) and not getattr(settings, "DJANGOCMS_ALWAYS_TIMED_PUBLISHING", False):
+        ) and not getattr(settings, "DJANGOCMS_TIMED_PUBLISHING_BUTTON", False):
             # Timed publishibng
             if version.check_publish.as_bool(self.request.user):
                 prev_entry = versioning_menu.find_first(Break)

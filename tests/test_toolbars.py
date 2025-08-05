@@ -71,20 +71,20 @@ class TestToolbar:
         assert "Visible until" in content
 
     @pytest.mark.django_db
-    @pytest.mark.parametrize("always_timed_publishing", [True, False])
+    @pytest.mark.parametrize("timed_publishing_button", [True, False])
     def test_toolbar_respects_always_timed_publishing_setting(
-        self, client, admin_user, page_content, settings, always_timed_publishing
+        self, client, admin_user, page_content, settings, timed_publishing_button
     ):
         """
         Test that the toolbar offers timed publishing based on the
         DJANGOCMS_ALWAYS_TIMED_PUBLISHING setting.
         """
-        settings.DJANGOCMS_ALWAYS_TIMED_PUBLISHING = always_timed_publishing
+        settings.DJANGOCMS_TIMED_PUBLISHING_BUTTON = timed_publishing_button
         client.login(username=admin_user.username, password='admin123')
         response = client.get(get_object_edit_url(page_content))
         content = response.content.decode()
 
-        if always_timed_publishing:
+        if timed_publishing_button:
             version = page_content.versions.first()
             version = version.convert_to_proxy()
 

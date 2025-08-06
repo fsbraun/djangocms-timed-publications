@@ -8,11 +8,17 @@
 # djangocms-timed-publishing
 django CMS Timed Publishing extends django CMS Versioning to allow for planned or limited publication of content:
 
-* New option to publish from the versioning menu (The "Publish" button does not change behavior.)
+* New option to publish with beginning and end dates.
+  By default this is done from the versioning menu and the "Publish" button does not change behavior.
+  The menu brings up a modal allowing to select time limits for the visibility of the to-be-published version:
 
-* The menu brings up a modal allowing to select time limits for the visibility of the to-be-published version:
+  Alternatively, with the setting `DJANGOCMS_TIMED_PUBLISHING_BUTTON = True`, the "Publish" button changes
+  behavior and always opens the modal to ask for beginning and end dates.
 
-  Technically, the time limits do not affect the published status but only the visibility. This means, dates on published versions cannot be changed any more. You need to create a new draft and publish that to make a change.
+  Publishing from the admin - be it the page tree or the version manager - is not affected.
+
+* Technically, the time limits do not affect the published status but only the visibility. This means, dates on published
+  versions cannot be changed any more. You need to create a new draft and publish that to make a change.
 
 * Versioning menu shows pending or expired visibility dates. "pending" is a word for a published version that is
   not yet visible. "expired" is a word for a published version not visible any more:

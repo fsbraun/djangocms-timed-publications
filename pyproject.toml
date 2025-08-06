@@ -5,7 +5,6 @@ requires = [ "setuptools>=61", "wheel" ]
 
 [project]
 name = "djangocms-timed-publishing"
-version = "0.1.0"
 description = "djangocms-versioning extension to time your publications"
 readme = "README.md"
 keywords = [ "cms", "django", "djangocms", "publications", "timed", "versioning" ]
@@ -39,6 +38,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Software Development :: Libraries",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "django-cms>=4.1",
   "djangocms-versioning>=2",
@@ -61,6 +61,9 @@ optional-dependencies.test = [
 urls."Bug Reports" = "https://github.com/fsbraun/djangocms-timed-publishing/issues"
 urls."Homepage" = "https://github.com/fsbraun/djangocms-timed-publishing"
 urls."Source" = "https://github.com/fsbraun/djangocms-timed-publishing"
+
+[tool.setuptools.dynamic]
+version = { attr = "djangocms_timed_publishing.__version__" }
 
 [tool.setuptools.packages.find]
 include = [ "djangocms_timed_publishing*" ]
